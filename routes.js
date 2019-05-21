@@ -1,7 +1,9 @@
 const routes = require('next-routes');
 
 // const router = routes().add('feed', '/feed/:feedId');
-const router = routes().add('parts', '/books/:id', 'parts');
+const router = routes()
+  .add('parts', '/books/:id', 'parts')
+  .add('addPart', '/addPart/:id', 'addPart')
 exports.Link = router.Link;
 
 module.exports = router;
