@@ -1,5 +1,5 @@
 import { Container } from 'next/app';
-// import axios from 'axios';
+import axios from 'axios';
 import * as React from 'react';
 // import Router from 'next/router'
 
@@ -70,6 +70,7 @@ MyApp.getInitialProps = async (context) => {
     token = getCookie('token');
   }
   console.log('token', token);
+  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
   context.ctx.store.dispatch({
     type: LOAD_USER_REQUEST,
       data: {
@@ -79,7 +80,7 @@ MyApp.getInitialProps = async (context) => {
 
   let pageProps = {}
   if (context.Component.getInitialProps) {
-    pageProps = await context.Component.getInitialProps(context.ctx)
+    pageProps = await context.Component.getInitialProps(context.ctx, token)
   }
   return { pageProps, isServer}
 }

@@ -82,13 +82,14 @@ function* watchAddBook() {
   yield takeLatest(ADD_BOOK_REQUEST, addPost);
 }
 
-function loadBooksAPI() {
-  return axios.get('/books');
+function loadBooksAPI({token}) {
+  return axios.get('/books', { headers: { Authorization: `Bearer ${token}` } });
 }
 
-function* loadBooks() {
+function* loadBooks(action) {
   try {
-    const result = yield call(loadBooksAPI);
+    const result = yield call(loadBooksAPI, action.data);
+    console.log(111, result);
     yield put({
       type: LOAD_BOOKS_SUCCESS,
       data: result.data.result,

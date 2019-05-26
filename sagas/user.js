@@ -13,7 +13,7 @@ function logInAPI(loginData) {
   // 서버에 요청을 보내는 부분
   console.log(loginData);
   return axios.post('/signIn', loginData);
-  
+
 }
 
 function* logIn(action) {
@@ -42,11 +42,10 @@ function* watchLogIn() {
   yield takeEvery(LOG_IN_REQUEST, logIn);
 }
 
-function loadUserAPI({token}) {
+function loadUserAPI({ token }) {
   // 서버에 요청을 보내는 부분
   console.log(token);
-  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-  return axios.get('/users/me');
+  return axios.get('/users/me', { headers: { Authorization: `Bearer ${token}` } });
 }
 
 function* loadUser(action) {
@@ -54,7 +53,7 @@ function* loadUser(action) {
     // yield call(loadUserAPI);
     const result = yield call(loadUserAPI, action.data);
     console.log(result.data);
-    if(result.data.ok !== true) {
+    if (result.data.ok !== true) {
     }
     yield put({ // put은 dispatch 동일
       type: LOAD_USER_SUCCESS,

@@ -6,15 +6,7 @@ import axios from 'axios';
 import { LOAD_BOOKS_REQUEST } from '../reducers/book'
 
 const Books = () => {
-  const dispatch = useDispatch();
   const books = useSelector(state => state.book.books)
-  console.log(books);
-
-  useEffect(() => {
-    dispatch({
-      type: LOAD_BOOKS_REQUEST,
-    });
-  }, [])
 
   const onClick = (id) => {
     Router.pushRoute(`/books/${id}`)
@@ -46,7 +38,7 @@ const Books = () => {
           </tr>
         </thead>
         <tbody>
-          {books.map(book => {
+          {books && books.map(book => {
             return (
               <tr key={book.id}>
                 <td onClick={() => onClick(book.id)}>
@@ -71,6 +63,15 @@ const Books = () => {
       </table>
     </>
   )
+}
+
+Books.getInitialProps = async (ctx, token) => {
+  ctx.store.dispatch({
+    type: LOAD_BOOKS_REQUEST,
+    data: {
+      token,
+    }
+  });
 }
 
 export default Books;
