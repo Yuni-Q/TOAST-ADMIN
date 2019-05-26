@@ -14,21 +14,6 @@ const Parts = ({ id }) => {
   })[0];
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_BOOKS_REQUEST,
-      data: {
-        id
-      }
-    });
-    dispatch({
-      type: LOAD_BOOK_REQUEST,
-      data: {
-        id
-      }
-    });
-  }, [])
-
   const addPart = (id) => {
     Router.pushRoute(`/addPart/${id}`)
   }
@@ -58,7 +43,7 @@ const Parts = ({ id }) => {
         </tr>
       </thead>
       <tbody>
-        {parts.map(part => {
+        {parts && parts.map(part => {
           return (
             <tr key={part.partId}>
               <td onClick={() => onClick(part.partId)}>
@@ -82,8 +67,21 @@ const Parts = ({ id }) => {
   )
 }
 
-Parts.getInitialProps = ({ query }) => {
-  return { id: query.id };
+Parts.getInitialProps = (ctx, token) => {
+  ctx.store.dispatch({
+    type: LOAD_BOOKS_REQUEST,
+    data: {
+      token,
+    }
+  });
+  ctx.store.dispatch({
+    type: LOAD_BOOK_REQUEST,
+    data: {
+      id: ctx.query.id,
+      token,
+    }
+  });
+  return { id: ctx.query.id };
 }
 
 export default Parts;

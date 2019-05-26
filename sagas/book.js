@@ -82,7 +82,7 @@ function* watchAddBook() {
   yield takeLatest(ADD_BOOK_REQUEST, addPost);
 }
 
-function loadBooksAPI({token}) {
+function loadBooksAPI({ token }) {
   return axios.get('/books', { headers: { Authorization: `Bearer ${token}` } });
 }
 
@@ -106,8 +106,8 @@ function* watchLoadBooks() {
   yield takeLatest(LOAD_BOOKS_REQUEST, loadBooks);
 }
 
-function loadBookAPI({ id }) {
-  return axios.get(`/books/${id}`);
+function loadBookAPI({ id, token }) {
+  return axios.get(`/books/${id}`, { headers: { Authorization: `Bearer ${token}` } });
 }
 
 function* loadBook(action) {
