@@ -6,27 +6,10 @@ import axios from 'axios';
 import { LOAD_BOOKS_REQUEST, LOAD_BOOK_REQUEST, EDIT_BOOK_REQUEST } from '../reducers/book'
 import EditFrom from '../components/EditForm'
 
-const Parts = ({ id }) => {
-  const books = useSelector(state=> state.book.books);
-  const parts = useSelector(state=> state.book.parts)
-  const book = books.length > 0 && books.filter(book=> {
-    return book.id === parseInt(id, 10)
-  })[0];
-  const dispatch = useDispatch();
-
+const Question = ({ bookId, partId }) => {
+  const parts = [];
   useEffect(() => {
-    dispatch({
-      type: LOAD_BOOKS_REQUEST,
-      data: {
-        id
-      }
-    });
-    dispatch({
-      type: LOAD_BOOK_REQUEST,
-      data: {
-        id
-      }
-    });
+    
   }, [])
 
   const addPart = (id) => {
@@ -34,7 +17,7 @@ const Parts = ({ id }) => {
   }
 
   const onClick = (id) => {
-    Router.pushRoute(`/books/${book.id}/parts/${id}`)
+    Router.pushRoute(`/parts/${id}`)
   }
 
   const deletePart = async (id) => {
@@ -48,7 +31,7 @@ const Parts = ({ id }) => {
   return (
     <>
     <button onClick={() => addPart(book.id)}>추가</button>
-    <EditFrom id={book.id} title={book.title} content={book.content} action={EDIT_BOOK_REQUEST}/>
+    {/* <EditFrom id={part.id} title={part.title} content={part.content} action={EDIT_PART_REQUEST}/> */}
     <table border="1">
       <thead>
         <tr>
@@ -82,8 +65,9 @@ const Parts = ({ id }) => {
   )
 }
 
-Parts.getInitialProps = ({ query }) => {
-  return { id: query.id };
+Question.getInitialProps = ({ query }) => {
+  console.log(query);
+  return { bookId: query.bookId, partId: query.partId };
 }
 
-export default Parts;
+export default Question;

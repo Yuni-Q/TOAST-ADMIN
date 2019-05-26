@@ -5,12 +5,15 @@ import * as React from 'react';
 
 import withRedux from 'next-redux-wrapper';
 import { applyMiddleware, compose, createStore } from 'redux';
+import withReduxSaga from 'next-redux-saga';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
 
 import reducer from '../reducers';
 import rootSaga from '../sagas';
+import { getCookie } from '../common/cookie';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 import AppLayout from '../components/AppLayout';
 
@@ -45,16 +48,40 @@ const configureStore = (initialState, options) => {
     );
   const store = createStore(reducer, initialState, enhancer);
   sagaMiddleware.run(rootSaga);
+  store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
 
 MyApp.getInitialProps = async (context) => {
+  let token = '';
+  const isServer = !!context.ctx.req
+  if(isServer) {
+    const decodedCookie = decodeURIComponent(context.ctx.req.headers.cookie);
+    const value = 'token'
+    const cookieList = decodedCookie.split(';');
+    const name = value + '=';
+    const cookie = cookieList
+      .map((e) => e.trim())
+      .find((e) => e.indexOf(name) === 0);
+    token = cookie
+        ? cookie.substring(name.length)
+        : '';
+  } else {
+    token = getCookie('token');
+  }
+  console.log('token', token);
+  context.ctx.store.dispatch({
+    type: LOAD_USER_REQUEST,
+      data: {
+        token
+      },
+  });
+
   let pageProps = {}
   if (context.Component.getInitialProps) {
     pageProps = await context.Component.getInitialProps(context.ctx)
   }
-  const isServer = !!context.req
   return { pageProps, isServer}
 }
 
-export default withRedux(configureStore)(MyApp);
+export default withRedux(configureStore)(withReduxSaga(MyApp));

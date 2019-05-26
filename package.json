@@ -23,6 +23,7 @@
     "mobx-react": "^5.4.4",
     "morgan": "^1.9.1",
     "next": "^8.1.0",
+    "next-redux-saga": "^4.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.2",
     "next-routes": "^1.4.2",
     "path": "^0.12.7",

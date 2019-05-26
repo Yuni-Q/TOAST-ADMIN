@@ -8,6 +8,7 @@ import { Link } from '../routes';
 import { canUseDOM } from '../pages/_app';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import Router from 'next/router'
+import { getCookie } from "../common/cookie";
 
 
 const { Header, Content, Footer } = Layout;
@@ -16,11 +17,11 @@ const { Header, Content, Footer } = Layout;
 const AppLayout = (props) => {
   const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  if(canUseDOM() && !window.localStorage.getItem('token') && window.location.pathname !== '/') {
+  if(canUseDOM() && !getCookie('token') && window.location.pathname !== '/') {
     Router.push('/')
   }
 
-  if (canUseDOM() && window.localStorage.getItem('token') && (!me || !me.nickName)) {
+  if (canUseDOM() && getCookie('token') && (!me || !me.nickName)) {
     dispatch({
       type: LOAD_USER_REQUEST,
     });

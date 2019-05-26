@@ -19,10 +19,16 @@ function logInAPI(loginData) {
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    window.localStorage.setItem('token', result.data.result.token);
+    document.cookie = `token=${result.data.result.token}`
     yield put({ // put은 dispatch 동일
       type: LOG_IN_SUCCESS,
       data: result.data,
+    });
+    yield put({
+      type: LOAD_USER_REQUEST,
+      data: {
+        token: result.data.result.token
+      },
     });
   } catch (e) { // loginAPI 실패
     console.error(e);
@@ -36,20 +42,19 @@ function* watchLogIn() {
   yield takeEvery(LOG_IN_REQUEST, logIn);
 }
 
-function loadUserAPI() {
+function loadUserAPI({token}) {
   // 서버에 요청을 보내는 부분
-  const AUTH_TOKEN = window.localStorage.getItem('token');
-  axios.defaults.headers['Authorization'] = `Bearer ${AUTH_TOKEN}`;
+  console.log(token);
+  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
   return axios.get('/users/me');
 }
 
-function* loadUser() {
+function* loadUser(action) {
   try {
     // yield call(loadUserAPI);
-    const result = yield call(loadUserAPI);
+    const result = yield call(loadUserAPI, action.data);
     console.log(result.data);
     if(result.data.ok !== true) {
-      window.localStorage.removeItem(token);
     }
     yield put({ // put은 dispatch 동일
       type: LOAD_USER_SUCCESS,
