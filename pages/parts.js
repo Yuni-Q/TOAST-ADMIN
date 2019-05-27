@@ -6,10 +6,10 @@ import axios from 'axios';
 import { LOAD_BOOKS_REQUEST, LOAD_BOOK_REQUEST, EDIT_BOOK_REQUEST } from '../reducers/book'
 import EditFrom from '../components/EditForm'
 
-const Parts = ({ id }) => {
-  const books = useSelector(state=> state.book.books);
-  const parts = useSelector(state=> state.book.parts)
-  const book = books.length > 0 && books.filter(book=> {
+const Parts = ({ id, token }) => {
+  const books = useSelector(state => state.book.books);
+  const parts = useSelector(state => state.book.parts)
+  const book = books.length > 0 && books.filter(book => {
     return book.id === parseInt(id, 10)
   })[0];
   const dispatch = useDispatch();
@@ -19,12 +19,11 @@ const Parts = ({ id }) => {
   }
 
   const onClick = (id) => {
-    Router.pushRoute(`/books/${book.id}/parts/${id}`)
+    Router.pushRoute(`/parts/${id}`)
   }
 
   const deletePart = async (id) => {
-    const result = await axios.delete(`/parts/${id}`);
-    console.log(result);
+    const result = await axios.delete(`/parts/${id}`, { headers: {authorization: `Bearer ${token}`}});
     if(result.status === 200, result.data.ok === true) {
       window.location.href = window.location.href
     }
@@ -81,7 +80,7 @@ Parts.getInitialProps = (ctx, token) => {
       token,
     }
   });
-  return { id: ctx.query.id };
+  return { id: ctx.query.id, token };
 }
 
 export default Parts;

@@ -8,7 +8,7 @@ export const getCookie = (value) => {
     const cookie = cookieList
       .map((e) => e.trim())
       .find((e) => e.indexOf(name) === 0);
-      
+
     return cookie
         ? cookie.substring(name.length)
         : '';

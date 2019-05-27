@@ -69,7 +69,6 @@ MyApp.getInitialProps = async (context) => {
   } else {
     token = getCookie('token');
   }
-  console.log('token', token);
   axios.defaults.headers['Authorization'] = `Bearer ${token}`;
   context.ctx.store.dispatch({
     type: LOAD_USER_REQUEST,

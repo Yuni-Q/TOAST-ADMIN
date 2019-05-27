@@ -6,7 +6,6 @@ import { useInput } from '../common/customHooks'; // TODO: util 폴더로 옮기
 const LoginForm = ({ id, title: prevTitle, content: prevContent, action }) => {
   const [title, onChangeTitle] = useInput(prevTitle);
   const [content, onChangeContent] = useInput(prevContent);
-  const { isAddingPost } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const LoginForm = ({ id, title: prevTitle, content: prevContent, action }) => {
           <Input id="content" name="content" value={content} onChange={onChangeContent} />
         </div>
         <div style={{ marginTop: '10px' }}>
-          <Button type="primary" htmlType="submit" loading={isAddingPost}>수정</Button>
+          <Button type="primary" htmlType="submit">수정</Button>
         </div>
       </Form>
     </>

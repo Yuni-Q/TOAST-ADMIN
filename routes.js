@@ -3,7 +3,7 @@ const routes = require('next-routes');
 // const router = routes().add('feed', '/feed/:feedId');
 const router = routes()
   .add('parts', '/books/:id', 'parts')
-  .add('question', '/books/:bookId/parts/:partId', 'question')
+  .add('question', '/parts/:id', 'question')
   .add('addPart', '/addPart/:id', 'addPart')
 exports.Link = router.Link;
 

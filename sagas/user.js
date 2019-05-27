@@ -11,7 +11,6 @@ import {
 
 function logInAPI(loginData) {
   // 서버에 요청을 보내는 부분
-  console.log(loginData);
   return axios.post('/signIn', loginData);
 
 }
@@ -44,7 +43,6 @@ function* watchLogIn() {
 
 function loadUserAPI({ token }) {
   // 서버에 요청을 보내는 부분
-  console.log(token);
   return axios.get('/users/me', { headers: { Authorization: `Bearer ${token}` } });
 }
 
@@ -52,7 +50,6 @@ function* loadUser(action) {
   try {
     // yield call(loadUserAPI);
     const result = yield call(loadUserAPI, action.data);
-    console.log(result.data);
     if (result.data.ok !== true) {
     }
     yield put({ // put은 dispatch 동일

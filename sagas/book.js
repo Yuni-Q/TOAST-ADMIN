@@ -31,8 +31,7 @@ function editBookAPI(data) {
 
 function* editPost(action) {
   try {
-    const result = yield call(editBookAPI, action.data);
-    console.log(result);
+    yield call(editBookAPI, action.data);
     yield put({
       type: EDIT_BOOK_SUCCESS,
     });
@@ -64,11 +63,11 @@ function addBookAPI(data) {
 
 function* addPost(action) {
   try {
-    const result = yield call(addBookAPI, action.data);
-    console.log(result);
+    yield call(addBookAPI, action.data);
     yield put({
       type: ADD_BOOK_SUCCESS,
     });
+    console.log('왜 두번이지?');
     Router.pushRoute('/books')
   } catch (e) {
     yield put({
@@ -89,7 +88,6 @@ function loadBooksAPI({ token }) {
 function* loadBooks(action) {
   try {
     const result = yield call(loadBooksAPI, action.data);
-    console.log(111, result);
     yield put({
       type: LOAD_BOOKS_SUCCESS,
       data: result.data.result,

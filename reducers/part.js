@@ -1,5 +1,6 @@
 export const initialState = {
-  isAddingPost: false, // 포스트 업로드 중
+  parts: [],
+  question: [],
 };
 
 export const ADD_PART_REQUEST = 'ADD_PART_REQUEST';
@@ -9,6 +10,15 @@ export const ADD_PART_FAILURE = 'ADD_PART_FAILURE';
 export const EDIT_PART_REQUEST = 'EDIT_PART_REQUEST';
 export const EDIT_PART_SUCCESS = 'EDIT_PART_SUCCESS';
 export const EDIT_PART_FAILURE = 'EDIT_PART_FAILURE';
+
+export const LOAD_PART_REQUEST = 'LOAD_PART_REQUEST';
+export const LOAD_PART_SUCCESS = 'LOAD_PART_SUCCESS';
+export const LOAD_PART_FAILURE = 'LOAD_PART_FAILURE';
+
+export const LOAD_PARTS_REQUEST = 'LOAD_PARTS_REQUEST';
+export const LOAD_PARTS_SUCCESS = 'LOAD_PARTS_SUCCESS';
+export const LOAD_PARTS_FAILURE = 'LOAD_PARTS_FAILURE';
+
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -50,6 +60,42 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAddingPost: false,
+      };
+    }
+
+    // LOAD_PARTS_REQUEST
+    case LOAD_PARTS_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case LOAD_PARTS_SUCCESS: {
+      return {
+        ...state,
+        parts: action.data,
+      };
+    }
+    case LOAD_PARTS_FAILURE: {
+      return {
+        ...state,
+      };
+    }
+
+    // LOAD_PART_REQUEST
+    case LOAD_PART_REQUEST: {
+      return {
+        ...state,
+      };
+    }
+    case LOAD_PART_SUCCESS: {
+      return {
+        ...state,
+        question: action.data
+      };
+    }
+    case LOAD_PART_FAILURE: {
+      return {
+        ...state,
       };
     }
 

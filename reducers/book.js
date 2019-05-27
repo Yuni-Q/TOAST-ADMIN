@@ -1,7 +1,7 @@
 export const initialState = {
-  books: [], // 화면에 보일 포스트들
-  parts: [], // 미리보기 이미지 경로
-  isAddingPost: false, // 포스트 업로드 중
+  books: [],
+  parts: [],
+  isAddingPost: false,
 };
 
 export const LOAD_BOOKS_REQUEST = 'LOAD_BOOKS_REQUEST';

@@ -9,7 +9,42 @@ import {
   EDIT_PART_REQUEST,
   EDIT_PART_SUCCESS,
   EDIT_PART_FAILURE,
+  LOAD_PART_REQUEST,
+  LOAD_PART_SUCCESS,
+  LOAD_PART_FAILURE,
+  LOAD_PARTS_REQUEST,
+  LOAD_PARTS_SUCCESS,
+  LOAD_PARTS_FAILURE,
+  
 } from '../reducers/part';
+
+function loadPartsAPI({token}) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  return axios.get(`/parts`, config);
+}
+
+function* loadParts(action) {
+  try {
+    const result = yield call(loadPartsAPI, action.data);
+    yield put({
+      type: LOAD_PARTS_SUCCESS,
+      data: result.data.result,
+    });
+  } catch (e) {
+    yield put({
+      type: LOAD_PARTS_FAILURE,
+      error: e,
+    });
+  }
+}
+
+function* watchLoadParts() {
+  yield takeLatest(LOAD_PARTS_REQUEST, loadParts);
+}
 
 function editPartAPI(data) {
   const formData = new FormData();
@@ -26,7 +61,6 @@ function editPartAPI(data) {
 function* editPart(action) {
   try {
     const result = yield call(editPartAPI, action.data);
-    console.log(result);
     yield put({
       type: EDIT_PART_SUCCESS,
     });
@@ -60,7 +94,6 @@ function addPartAPI(data) {
 function* addPart(action) {
   try {
     const result = yield call(addPartAPI, action.data);
-    console.log(result);
     yield put({
       type: ADD_PART_SUCCESS,
     });
@@ -81,5 +114,6 @@ export default function* PartSaga() {
   yield all([
     fork(watchAddPart),
     fork(watchEditPart),
+    fork(watchLoadParts),
   ]);
 }

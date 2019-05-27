@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { LOAD_BOOKS_REQUEST } from '../reducers/book'
 
-const Books = () => {
+const Books = ({token}) => {
   const books = useSelector(state => state.book.books)
 
   const onClick = (id) => {
@@ -17,8 +17,7 @@ const Books = () => {
   }
 
   const deleteBook = async (id) => {
-    const result = await axios.delete(`/books/${id}`);
-    console.log(result);
+    const result = await axios.delete(`/books/${id}`, { headers: { Authorization : `Bearer ${token}`}});
     if(result.status === 200, result.data.ok === true) {
       window.location.href = '/books'
     }
@@ -72,6 +71,7 @@ Books.getInitialProps = async (ctx, token) => {
       token,
     }
   });
+  return { token };
 }
 
 export default Books;
