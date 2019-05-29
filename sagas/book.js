@@ -67,7 +67,6 @@ function* addPost(action) {
     yield put({
       type: ADD_BOOK_SUCCESS,
     });
-    console.log('왜 두번이지?');
     Router.pushRoute('/books')
   } catch (e) {
     yield put({
