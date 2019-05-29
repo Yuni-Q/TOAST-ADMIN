@@ -74,7 +74,7 @@ function* watchLoadQuestions() {
   yield takeLatest(LOAD_QUESTIONS_REQUEST, loadQuesions);
 }
 
-function editQUESTIONAPI(data) {
+function editQuestionAPI(data) {
   const formData = new FormData();
   formData.append('title', data.title)
   formData.append('content', data.content)
@@ -83,16 +83,16 @@ function editQUESTIONAPI(data) {
       'content-type': 'multiQUESTION/form-data'
     }
   }
-  return axios.put(`/QUESTIONs/${data.id}`, formData, config);
+  return axios.put(`/questions/${data.id}`, formData, config);
 }
 
-function* editQUESTION(action) {
+function* editQuestion(action) {
   try {
-    const result = yield call(editQUESTIONAPI, action.data);
+    yield call(editQuestionAPI, action.data);
     yield put({
       type: EDIT_QUESTION_SUCCESS,
     });
-    Router.pushRoute(`/QUESTIONs/${action.data.id}`)
+    Router.pushRoute(`/questions/${action.data.id}`)
   } catch (e) {
     yield put({
       type: EDIT_QUESTION_FAILURE,
@@ -101,8 +101,8 @@ function* editQUESTION(action) {
   }
 }
 
-function* watchEditQUESTION() {
-  yield takeLatest(EDIT_QUESTION_REQUEST, editQUESTION);
+function* watchEditQuestion() {
+  yield takeLatest(EDIT_QUESTION_REQUEST, editQuestion);
 }
 
 
@@ -142,7 +142,7 @@ function* watchAddQuestion() {
 export default function* QUESTIONSaga() {
   yield all([
     fork(watchAddQuestion),
-    // fork(watchEditQUESTION),
+    fork(watchEditQuestion),
     fork(watchLoadQuestions),
     // fork(watchLoadQUESTION),
   ]);

@@ -22,7 +22,6 @@ const Questions = ({ id, token }) => {
   }
 
   const deleteQuestion = async (id) => {
-    console.log('112323');
     try {
     const result = await axios.delete(`/questions/${id}`, { headers: {authorization: `Bearer ${token}`}});
     if(result.status === 200, result.data.ok === true) {
