@@ -1,6 +1,6 @@
 export const initialState = {
   questions: [],
-  questions: [],
+  toast: [],
 };
 
 export const ADD_QUESTION_REQUEST = 'ADD_QUESTION_REQUEST';
@@ -72,7 +72,7 @@ export default (state = initialState, action) => {
     case LOAD_QUESTIONS_SUCCESS: {
       return {
         ...state,
-        QUESTIONs: action.data,
+        questions: action.data,
       };
     }
     case LOAD_QUESTIONS_FAILURE: {
@@ -90,7 +90,7 @@ export default (state = initialState, action) => {
     case LOAD_QUESTION_SUCCESS: {
       return {
         ...state,
-        questions: action.data
+        toasts: action.data
       };
     }
     case LOAD_QUESTION_FAILURE: {

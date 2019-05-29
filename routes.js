@@ -3,8 +3,9 @@ const routes = require('next-routes');
 // const router = routes().add('feed', '/feed/:feedId');
 const router = routes()
   .add('parts', '/books/:id', 'parts')
-  .add('question', '/parts/:id', 'question')
+  .add('questions', '/parts/:id', 'questions')
   .add('addPart', '/addPart/:id', 'addPart')
+  .add('toasts', '/questions/:id', 'toasts')
   .add('addQuestion', '/addQuestion/:id', 'addQuestion')
 exports.Link = router.Link;
 

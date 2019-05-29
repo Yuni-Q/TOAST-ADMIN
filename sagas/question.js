@@ -16,7 +16,7 @@ import {
   LOAD_QUESTIONS_SUCCESS,
   LOAD_QUESTIONS_FAILURE,
   
-} from '../reducers/QUESTION';
+} from '../reducers/question';
 
 function loadQUESTIONAPI({token, id}) {
   const config = {
@@ -46,18 +46,18 @@ function* watchLoadQUESTION() {
   yield takeLatest(LOAD_QUESTION_REQUEST, loadQUESTION);
 }
 
-function loadQUESTIONsAPI({token}) {
+function loadQuesionsAPI({token}) {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   }
-  return axios.get(`/QUESTIONs`, config);
+  return axios.get(`/questions`, config);
 }
 
-function* loadQUESTIONs(action) {
+function* loadQuesions(action) {
   try {
-    const result = yield call(loadQUESTIONsAPI, action.data);
+    const result = yield call(loadQuesionsAPI, action.data);
     yield put({
       type: LOAD_QUESTIONS_SUCCESS,
       data: result.data.result,
@@ -70,8 +70,8 @@ function* loadQUESTIONs(action) {
   }
 }
 
-function* watchLoadQUESTIONs() {
-  yield takeLatest(LOAD_QUESTIONS_REQUEST, loadQUESTIONs);
+function* watchLoadQuestions() {
+  yield takeLatest(LOAD_QUESTIONS_REQUEST, loadQuesions);
 }
 
 function editQUESTIONAPI(data) {
@@ -143,7 +143,7 @@ export default function* QUESTIONSaga() {
   yield all([
     fork(watchAddQuestion),
     // fork(watchEditQUESTION),
-    // fork(watchLoadQUESTIONs),
+    fork(watchLoadQuestions),
     // fork(watchLoadQUESTION),
   ]);
 }

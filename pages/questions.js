@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_PARTS_REQUEST, LOAD_PART_REQUEST, EDIT_PART_REQUEST } from '../reducers/part'
 import EditFrom from '../components/EditForm'
 
-const Question = ({ id, token }) => {
+const Questions = ({ id, token }) => {
   const parts = useSelector(state => state.part.parts)
   const part = parts.length > 0 && parts.filter(part => {
     return part.id === parseInt(id, 10)
@@ -70,7 +70,7 @@ const Question = ({ id, token }) => {
   )
 }
 
-Question.getInitialProps = async (ctx, token) => {
+Questions.getInitialProps = async (ctx, token) => {
   ctx.store.dispatch({
     type: LOAD_PARTS_REQUEST,
     data: {
@@ -87,4 +87,4 @@ Question.getInitialProps = async (ctx, token) => {
   return { id: ctx.query.id, token };
 }
 
-export default Question;
+export default Questions;
