@@ -29,7 +29,7 @@ const AppLayout = (props) => {
   return (
     <>
       <Head>
-        <title>Yuni-Q</title>
+        <title>TOAST</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.js"></script>
       </Head>
@@ -48,6 +48,9 @@ const AppLayout = (props) => {
             <Menu.Item key="1">
               <Link route={"/books"}><a>book</a></Link>
             </Menu.Item>
+            {/* <Menu.Item key="2"> */}
+              {/* <button>로그아웃</button> */}
+            {/* </Menu.Item> */}
             {/* <Menu.Item key="2">
               <Link route={"/parts"}><a>part</a></Link>
             </Menu.Item>
