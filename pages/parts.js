@@ -32,13 +32,14 @@ const Parts = ({ id, token }) => {
   return (
     <>
     <button onClick={() => addPart(book.id)}>추가</button>
-    <EditFrom id={book.id} title={book.title} content={book.content} action={EDIT_BOOK_REQUEST}/>
+    <EditFrom id={book.id} title={book.title} content={book.content} imgUrl={book.imgUrl} action={EDIT_BOOK_REQUEST}/>
     <table border="1">
       <thead>
         <tr>
           <th>id</th>
           <th>title</th>
           <th>content</th>
+          <th>삭제</th>
         </tr>
       </thead>
       <tbody>

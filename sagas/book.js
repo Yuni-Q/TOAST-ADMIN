@@ -19,8 +19,9 @@ import {
 
 function editBookAPI(data) {
   const formData = new FormData();
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('title', data.title);
+  formData.append('content', data.content);
+  formData.append('image', data.image);
   const config = {
     headers: {
       'content-type': 'multipart/form-data'
@@ -31,7 +32,8 @@ function editBookAPI(data) {
 
 function* editPost(action) {
   try {
-    yield call(editBookAPI, action.data);
+    const result = yield call(editBookAPI, action.data);
+    console.log('result', result);
     yield put({
       type: EDIT_BOOK_SUCCESS,
     });
@@ -51,8 +53,9 @@ function* watchEditBook() {
 
 function addBookAPI(data) {
   const formData = new FormData();
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('title', data.title);
+  formData.append('content', data.content);
+  formData.append('image', data.image);
   const config = {
     headers: {
       'content-type': 'multipart/form-data'
@@ -63,7 +66,8 @@ function addBookAPI(data) {
 
 function* addPost(action) {
   try {
-    yield call(addBookAPI, action.data);
+    const result = yield call(addBookAPI, action.data);
+    console.log('result', result);
     yield put({
       type: ADD_BOOK_SUCCESS,
     });
