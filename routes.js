@@ -5,6 +5,7 @@ const router = routes()
   .add('parts', '/books/:id', 'parts')
   .add('question', '/parts/:id', 'question')
   .add('addPart', '/addPart/:id', 'addPart')
+  .add('addQuestion', '/addQuestion/:id', 'addQuestion')
 exports.Link = router.Link;
 
 module.exports = router;

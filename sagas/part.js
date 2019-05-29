@@ -28,10 +28,8 @@ function loadPartAPI({token, id}) {
 }
 
 function* loadPart(action) {
-  console.log('1111');
   try {
     const result = yield call(loadPartAPI, action.data);
-    console.log('result', result);
     yield put({
       type: LOAD_PART_SUCCESS,
       data: result.data.result,
@@ -91,7 +89,6 @@ function editPartAPI(data) {
 function* editPart(action) {
   try {
     const result = yield call(editPartAPI, action.data);
-    console.log('resutl', result);
     yield put({
       type: EDIT_PART_SUCCESS,
     });
@@ -124,7 +121,7 @@ function addPartAPI(data) {
 
 function* addPart(action) {
   try {
-    const result = yield call(addPartAPI, action.data);
+    yield call(addPartAPI, action.data);
     yield put({
       type: ADD_PART_SUCCESS,
     });

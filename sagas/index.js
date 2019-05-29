@@ -3,6 +3,7 @@ import axios from 'axios';
 import book from './book';
 import user from './user';
 import part from './part';
+import question from './question';
 
 axios.defaults.baseURL = 'http://13.113.246.46';
 
@@ -11,5 +12,6 @@ export default function* rootSaga() {
     fork(user),
     fork(book),
     fork(part),
+    fork(question),
   ]);
 }
