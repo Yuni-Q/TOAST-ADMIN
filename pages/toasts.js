@@ -12,6 +12,7 @@ const Toasts = ({ bookId, partId, id, token }) => {
     return question.id === parseInt(id, 10)
   })[0];
   const toasts = useSelector(state => state.question.toasts)
+  console.log('t', toasts);
 
   // const addQuestion = (id) => {
   //   Router.pushRoute(`/addQuestion/${id}`)
@@ -42,20 +43,29 @@ const Toasts = ({ bookId, partId, id, token }) => {
             <th>id</th>
             <th>title</th>
             <th>content</th>
+            <th>keepsCount</th>
+            <th>alertCount</th>
+            <th>삭제</th>
           </tr>
         </thead>
         <tbody>
           {toasts && toasts.length > 0 && toasts.map(toast => {
             return (
               <tr key={toast.id}>
-                <td onClick={() => onClick(toast.id)}>
+                <td>
                   {toast.id}
                 </td>
-                <td onClick={() => onClick(toast.id)}>
+                <td>
                   {toast.title}
                 </td>
-                <td onClick={() => onClick(toast.id)}>
+                <td>
                   {toast.content}
+                </td>
+                <td>
+                  {toast.keepsCount}
+                </td>
+                <td>
+                  {toast.alertCount}
                 </td>
                 <td>
                   <button onClick={() => deleteToast(toast.id)}>삭제</button>
