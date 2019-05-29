@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_PARTS_REQUEST, LOAD_PART_REQUEST, EDIT_PART_REQUEST } from '../reducers/part'
 import EditFrom from '../components/EditForm'
 
-const Question = ({ id }) => {
+const Question = ({ id, token }) => {
   const parts = useSelector(state => state.part.parts)
   const part = parts.length > 0 && parts.filter(part => {
     return part.id === parseInt(id, 10)
@@ -18,14 +18,19 @@ const Question = ({ id }) => {
   }
 
   const onClick = (id) => {
-    // Router.pushRoute(`/parts/${id}`)
+    Router.pushRoute(`/questions/${id}`)
   }
 
   const deleteQuestion = async (id) => {
-    // const result = await axios.delete(`/parts/${id}`);
-    // if(result.status === 200, result.data.ok === true) {
-    //   window.location.href = window.location.href
-    // }
+    console.log('112323');
+    try {
+    const result = await axios.delete(`/questions/${id}`, { headers: {authorization: `Bearer ${token}`}});
+    if(result.status === 200, result.data.ok === true) {
+      window.location.href = window.location.href
+    }
+  } catch(error) {
+    console.log(error);
+  }
   }
 
   return (
@@ -79,7 +84,7 @@ Question.getInitialProps = async (ctx, token) => {
       id: ctx.query.id,
     }
   })
-  return { id: ctx.query.id };
+  return { id: ctx.query.id, token };
 }
 
 export default Question;
