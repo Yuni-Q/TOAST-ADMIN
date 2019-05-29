@@ -61,10 +61,11 @@ function editPartAPI(data) {
 function* editPart(action) {
   try {
     const result = yield call(editPartAPI, action.data);
+    console.log('resutl', result);
     yield put({
       type: EDIT_PART_SUCCESS,
     });
-    Router.pushRoute(`/books/${action.data.id}`)
+    Router.pushRoute(`/parts/${action.data.id}`)
   } catch (e) {
     yield put({
       type: EDIT_PART_FAILURE,
