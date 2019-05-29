@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_PARTS_REQUEST, LOAD_PART_REQUEST, EDIT_PART_REQUEST } from '../reducers/part'
 import EditFrom from '../components/EditForm'
 
-const Questions = ({ id, token }) => {
+const Questions = ({ bookId, id, token }) => {
   const parts = useSelector(state => state.part.parts)
   const part = parts.length > 0 && parts.filter(part => {
     return part.id === parseInt(id, 10)
@@ -14,11 +14,11 @@ const Questions = ({ id, token }) => {
   const questions = useSelector(state => state.part.questions)
 
   const addQuestion = (id) => {
-    Router.pushRoute(`/addQuestion/${id}`)
+    Router.pushRoute(`/books/${bookId}/parts/${id}/addQuestion`)
   }
 
   const onClick = (id) => {
-    Router.pushRoute(`/questions/${id}`)
+    Router.pushRoute(`/books/${bookId}/parts/${part.id}/questions/${id}`)
   }
 
   const deleteQuestion = async (id) => {
@@ -83,7 +83,7 @@ Questions.getInitialProps = async (ctx, token) => {
       id: ctx.query.id,
     }
   })
-  return { id: ctx.query.id, token };
+  return { bookId: ctx.query.bookId, id: ctx.query.id, token };
 }
 
 export default Questions;

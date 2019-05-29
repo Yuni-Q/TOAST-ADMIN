@@ -92,7 +92,7 @@ function* editQuestion(action) {
     yield put({
       type: EDIT_QUESTION_SUCCESS,
     });
-    Router.pushRoute(`/questions/${action.data.id}`)
+    Router.pushRoute(window.location.pathname.split('/questions')[0])
   } catch (e) {
     yield put({
       type: EDIT_QUESTION_FAILURE,
@@ -107,7 +107,6 @@ function* watchEditQuestion() {
 
 
 function addQuestionAPI(data) {
-  console.log('11111');
   const formData = new FormData();
   formData.append('partId', data.id)
   formData.append('title', data.title)
@@ -126,7 +125,7 @@ function* addQuestion(action) {
     yield put({
       type: ADD_QUESTION_SUCCESS,
     });
-    Router.pushRoute(`/parts/${action.data.id}`)
+    Router.pushRoute(window.location.pathname.split('/addQuestion')[0])
   } catch (e) {
     yield put({
       type: ADD_QUESTION_FAILURE,

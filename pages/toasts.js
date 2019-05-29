@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_QUESTIONS_REQUEST, EDIT_QUESTION_REQUEST } from '../reducers/question'
 import EditFrom from '../components/EditForm'
 
-const Toasts = ({ id, token }) => {
+const Toasts = ({ bookId, partId, id, token }) => {
   const questions = useSelector(state => state.question.questions)
   const question = questions.length > 0 && questions.filter(question => {
     return question.id === parseInt(id, 10)
@@ -84,7 +84,7 @@ Toasts.getInitialProps = async (ctx, token) => {
   //     id: ctx.query.id,
   //   }
   // })
-  return { id: ctx.query.id, token };
+  return { bookId: ctx.query.bookId, partId: ctx.query.partId, id: ctx.query.id, token };
 }
 
 export default Toasts;

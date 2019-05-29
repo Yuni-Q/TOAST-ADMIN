@@ -15,11 +15,11 @@ const Parts = ({ id, token }) => {
   const dispatch = useDispatch();
 
   const addPart = (id) => {
-    Router.pushRoute(`/addPart/${id}`)
+    Router.pushRoute(`/books/${id}/addPart`)
   }
 
   const onClick = (id) => {
-    Router.pushRoute(`/parts/${id}`)
+    Router.pushRoute(`/books/${book.id}/parts/${id}`)
   }
 
   const deletePart = async (id) => {

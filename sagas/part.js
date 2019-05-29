@@ -92,7 +92,7 @@ function* editPart(action) {
     yield put({
       type: EDIT_PART_SUCCESS,
     });
-    Router.pushRoute(`/parts/${action.data.id}`)
+    Router.pushRoute(window.location.pathname.split('/parts')[0])
   } catch (e) {
     yield put({
       type: EDIT_PART_FAILURE,
@@ -125,7 +125,7 @@ function* addPart(action) {
     yield put({
       type: ADD_PART_SUCCESS,
     });
-    Router.pushRoute(`/books/${action.data.id}`)
+    Router.pushRoute(window.location.pathname.split('/addPart')[0])
   } catch (e) {
     yield put({
       type: ADD_PART_FAILURE,

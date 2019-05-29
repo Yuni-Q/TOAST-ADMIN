@@ -3,10 +3,10 @@ const routes = require('next-routes');
 // const router = routes().add('feed', '/feed/:feedId');
 const router = routes()
   .add('parts', '/books/:id', 'parts')
-  .add('questions', '/parts/:id', 'questions')
-  .add('addPart', '/addPart/:id', 'addPart')
-  .add('toasts', '/questions/:id', 'toasts')
-  .add('addQuestion', '/addQuestion/:id', 'addQuestion')
+  .add('questions', '/books/:bookId/parts/:id', 'questions')
+  .add('addPart', '/books/:id/addPart', 'addPart')
+  .add('toasts', '/books/:bookId/parts/:partId/questions/:id', 'toasts')
+  .add('addQuestion', '/books/:bookId/parts/:id/addQuestion', 'addQuestion')
 exports.Link = router.Link;
 
 module.exports = router;
