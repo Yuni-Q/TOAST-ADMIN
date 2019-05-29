@@ -11,16 +11,17 @@ const Question = ({ id }) => {
   const part = parts.length > 0 && parts.filter(part => {
     return part.id === parseInt(id, 10)
   })[0];
+  const questions = useSelector(state => state.part.questions)
 
-  const addPart = (id) => {
-    // Router.pushRoute(`/addPart/${id}`)
+  const addQuestion = (id) => {
+    Router.pushRoute(`/addQuestion/${id}`)
   }
 
   const onClick = (id) => {
     // Router.pushRoute(`/parts/${id}`)
   }
 
-  const deletePart = async (id) => {
+  const deleteQuestion = async (id) => {
     // const result = await axios.delete(`/parts/${id}`);
     // if(result.status === 200, result.data.ok === true) {
     //   window.location.href = window.location.href
@@ -29,7 +30,7 @@ const Question = ({ id }) => {
 
   return (
     <>
-    <button onClick={() => addPart(book.id)}>추가</button>
+    <button onClick={() => addQuestion(part.id)}>추가</button>
     <EditFrom id={part.id} title={part.title} content={part.content} action={EDIT_PART_REQUEST}/>
     <table border="1">
       <thead>
@@ -40,20 +41,20 @@ const Question = ({ id }) => {
         </tr>
       </thead>
       <tbody>
-        {parts && parts.length > 0 && parts.map(part => {
+        {questions && questions.length > 0 && questions.map(question => {
           return (
-            <tr key={part.partId}>
-              <td onClick={() => onClick(part.partId)}>
-                {part.partId}
+            <tr key={question.id}>
+              <td onClick={() => onClick(question.id)}>
+                {question.id}
               </td>
-              <td onClick={() => onClick(part.partId)}>
-                {part.partTitle}
+              <td onClick={() => onClick(question.id)}>
+                {question.title}
               </td>
-              <td onClick={() => onClick(part.partId)}>
-                {part.partContent}
+              <td onClick={() => onClick(question.id)}>
+                {question.content}
               </td>
               <td>
-                  <button onClick={() => deletePart(part.partId)}>삭제</button>
+                  <button onClick={() => deleteQuestion(question.id)}>삭제</button>
                 </td>
             </tr>
           )

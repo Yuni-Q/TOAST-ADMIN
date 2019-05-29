@@ -18,6 +18,36 @@ import {
   
 } from '../reducers/part';
 
+function loadPartAPI({token, id}) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  return axios.get(`/parts/${id}`, config);
+}
+
+function* loadPart(action) {
+  console.log('1111');
+  try {
+    const result = yield call(loadPartAPI, action.data);
+    console.log('result', result);
+    yield put({
+      type: LOAD_PART_SUCCESS,
+      data: result.data.result,
+    });
+  } catch (e) {
+    yield put({
+      type: LOAD_PART_FAILURE,
+      error: e,
+    });
+  }
+}
+
+function* watchLoadPart() {
+  yield takeLatest(LOAD_PART_REQUEST, loadPart);
+}
+
 function loadPartsAPI({token}) {
   const config = {
     headers: {
@@ -116,5 +146,6 @@ export default function* PartSaga() {
     fork(watchAddPart),
     fork(watchEditPart),
     fork(watchLoadParts),
+    fork(watchLoadPart),
   ]);
 }

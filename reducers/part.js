@@ -1,6 +1,6 @@
 export const initialState = {
   parts: [],
-  question: [],
+  questions: [],
 };
 
 export const ADD_PART_REQUEST = 'ADD_PART_REQUEST';
@@ -90,7 +90,7 @@ export default (state = initialState, action) => {
     case LOAD_PART_SUCCESS: {
       return {
         ...state,
-        question: action.data
+        questions: action.data
       };
     }
     case LOAD_PART_FAILURE: {
