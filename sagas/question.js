@@ -18,18 +18,18 @@ import {
   
 } from '../reducers/question';
 
-function loadQUESTIONAPI({token, id}) {
+function loadQuestionAPI({token, id}) {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   }
-  return axios.get(`/QUESTIONs/${id}`, config);
+  return axios.get(`admin/questions/${id}`, config);
 }
 
-function* loadQUESTION(action) {
+function* loadQuestion(action) {
   try {
-    const result = yield call(loadQUESTIONAPI, action.data);
+    const result = yield call(loadQuestionAPI, action.data);
     yield put({
       type: LOAD_QUESTION_SUCCESS,
       data: result.data.result,
@@ -42,8 +42,8 @@ function* loadQUESTION(action) {
   }
 }
 
-function* watchLoadQUESTION() {
-  yield takeLatest(LOAD_QUESTION_REQUEST, loadQUESTION);
+function* watchLoadQuestion() {
+  yield takeLatest(LOAD_QUESTION_REQUEST, loadQuestion);
 }
 
 function loadQuesionsAPI({token}) {
@@ -143,6 +143,6 @@ export default function* QUESTIONSaga() {
     fork(watchAddQuestion),
     fork(watchEditQuestion),
     fork(watchLoadQuestions),
-    // fork(watchLoadQUESTION),
+    fork(watchLoadQuestion),
   ]);
 }
