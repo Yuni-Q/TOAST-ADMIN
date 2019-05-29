@@ -36,28 +36,14 @@ const AppLayout = (props) => {
       <Layout className="layout">
         <Header>
           <div className="logo" />
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            // defaultSelectedKeys={['2']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key="0">
+          <div>
+            <span>
               <Link route={"/"}><a>index</a></Link>
-            </Menu.Item>
-            <Menu.Item key="1">
+            </span>
+            <span style={{margin: '0px 0px 0px 16px'}} >
               <Link route={"/books"}><a>book</a></Link>
-            </Menu.Item>
-            {/* <Menu.Item key="2"> */}
-              {/* <button>로그아웃</button> */}
-            {/* </Menu.Item> */}
-            {/* <Menu.Item key="2">
-              <Link route={"/parts"}><a>part</a></Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link route={"/questions"}><a>question</a></Link>
-            </Menu.Item> */}
-          </Menu>
+            </span>
+          </div>
         </Header>
         <Content style={{ padding: '0 50px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
