@@ -21,10 +21,9 @@ const Toasts = ({ bookId, partId, id, token }) => {
   //   Router.pushRoute(`/questions/${id}`)
   // }
 
-  const deleteQuestion = async (id) => {
-    console.log('112323');
+  const deleteToast = async (id) => {
     try {
-      const result = await axios.delete(`/questions/${id}`, { headers: { authorization: `Bearer ${token}` } });
+      const result = await axios.delete(`/toasts/${id}`, { headers: { authorization: `Bearer ${token}` } });
       if (result.status === 200, result.data.ok === true) {
         window.location.href = window.location.href
       }
