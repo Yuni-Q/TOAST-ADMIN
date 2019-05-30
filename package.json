@@ -1,12 +1,13 @@
 {
-  "name": "react-nodebird-front",
+  "name": "toast-admin",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy": "git pull && npm install && pm2 start ecosystem.config.js --env"
   },
   "author": "ZeroCho",
   "license": "MIT",
