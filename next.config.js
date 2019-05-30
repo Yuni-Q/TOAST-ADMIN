@@ -1,7 +1,7 @@
-const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+// const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const webpack = require('webpack');
 
-module.exports = withBundleAnalyzer({
+module.exports = {
   distDir: 'build',
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
   analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -55,4 +55,4 @@ module.exports = withBundleAnalyzer({
       ],
     };
   },
-});
+};
