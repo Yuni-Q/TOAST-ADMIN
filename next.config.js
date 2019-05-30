@@ -1,6 +1,5 @@
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const webpack = require('webpack');
-const CompressionPlugin =require('compression-webpack-plugin')
 
 module.exports = withBundleAnalyzer({
   distDir: 'build',
@@ -53,7 +52,6 @@ module.exports = withBundleAnalyzer({
       plugins: [
         ...plugins,
         new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
-        prod && new CompressionPlugin(),
       ],
     };
   },

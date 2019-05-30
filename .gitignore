@@ -70,3 +70,5 @@ production.json
 yarn.lock
 __snapshots__
 *.snap
+build
+bundles
