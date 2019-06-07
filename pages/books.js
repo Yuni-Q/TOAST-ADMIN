@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LOAD_BOOKS_REQUEST } from '../reducers/book'
 
 const Books = ({token}) => {
-  const books = useSelector(state => state.book.books)
+  const books = useSelector(state => state.book.books, [])
 
   const onClick = (id) => {
     Router.pushRoute(`/books/${id}`)
@@ -37,7 +37,7 @@ const Books = ({token}) => {
           </tr>
         </thead>
         <tbody>
-          {books && books.map(book => {
+          {books && books.length > 0 && books.map(book => {
             return (
               <tr key={book.id}>
                 <td onClick={() => onClick(book.id)}>

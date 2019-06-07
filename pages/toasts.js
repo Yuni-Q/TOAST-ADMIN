@@ -8,7 +8,7 @@ import EditFrom from '../components/EditForm'
 
 const Toasts = ({ bookId, partId, id, token }) => {
   const questions = useSelector(state => state.question.questions)
-  const question = questions.length > 0 && questions.filter(question => {
+  const question = questions && questions.length > 0 && questions.filter(question => {
     return question.id === parseInt(id, 10)
   })[0];
   const toasts = useSelector(state => state.question.toasts)

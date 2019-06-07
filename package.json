@@ -9,7 +9,8 @@
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production next start",
     "predeloy": "npm run build",
-    "deploy": "git pull && npm install && pm2 start ecosystem.config.js --env"
+    "deploy": "git pull && npm install && pm2 start ecosystem.config.js --env",
+    "export": "npm run build && next export"
   },
   "author": "ZeroCho",
   "license": "MIT",

@@ -9,7 +9,7 @@ import EditFrom from '../components/EditForm'
 const Parts = ({ id, token }) => {
   const books = useSelector(state => state.book.books);
   const parts = useSelector(state => state.book.parts)
-  const book = books.length > 0 && books.filter(book => {
+  const book = books && books.length > 0 && books.filter(book => {
     return book.id === parseInt(id, 10)
   })[0];
   const dispatch = useDispatch();
