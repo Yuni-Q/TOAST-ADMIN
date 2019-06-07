@@ -1,24 +1,23 @@
-
-import * as React from "react";
-import Head from "next/head";
+import * as React from 'react';
+import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { Layout, Menu, Breadcrumb } from 'antd';
 
 import { Link } from '../routes';
 import { canUseDOM } from '../pages/_app';
 import { LOAD_USER_REQUEST } from '../reducers/user';
-import Router from 'next/router'
-import { getCookie } from "../common/cookie";
-
+import Router from 'next/router';
+import { getCookie } from '../common/cookie';
 
 const { Header, Content, Footer } = Layout;
 
-
-const AppLayout = (props) => {
+const AppLayout = props => {
+  const a = 1;
+  a = 2;
   const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  if(canUseDOM() && !getCookie('token') && window.location.pathname !== '/') {
-    Router.push('/')
+  if (canUseDOM() && !getCookie('token') && window.location.pathname !== '/') {
+    Router.push('/');
   }
 
   if (canUseDOM() && getCookie('token') && (!me || !me.nickName)) {
@@ -30,18 +29,25 @@ const AppLayout = (props) => {
     <>
       <Head>
         <title>TOAST</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.js"></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/3.18.1/antd.js" />
       </Head>
       <Layout className="layout">
         <Header>
           <div className="logo" />
           <div>
             <span>
-              <Link route={"/"}><a>index</a></Link>
+              <Link route={'/'}>
+                <a>index</a>
+              </Link>
             </span>
-            <span style={{margin: '0px 0px 0px 16px'}} >
-              <Link route={"/books"}><a>book</a></Link>
+            <span style={{ margin: '0px 0px 0px 16px' }}>
+              <Link route={'/books'}>
+                <a>book</a>
+              </Link>
             </span>
           </div>
         </Header>
@@ -51,12 +57,16 @@ const AppLayout = (props) => {
             <Breadcrumb.Item>List</Breadcrumb.Item>
             <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
-          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>{props.children}</div>
+          <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+            {props.children}
+          </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
       </Layout>
     </>
   );
-}
+};
 
-export default AppLayout
+export default AppLayout;

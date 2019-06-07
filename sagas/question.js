@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, put, delay, call } from 'redux-saga/effects';
 import axios from 'axios';
-import Router from 'next/router'
+import Router from 'next/router';
 
 import {
   ADD_QUESTION_REQUEST,
@@ -15,15 +15,14 @@ import {
   LOAD_QUESTIONS_REQUEST,
   LOAD_QUESTIONS_SUCCESS,
   LOAD_QUESTIONS_FAILURE,
-  
 } from '../reducers/question';
 
-function loadQuestionAPI({token, id}) {
+function loadQuestionAPI({ token, id }) {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+      Authorization: `Bearer ${token}`,
+    },
+  };
   return axios.get(`admin/questions/${id}`, config);
 }
 
@@ -46,12 +45,12 @@ function* watchLoadQuestion() {
   yield takeLatest(LOAD_QUESTION_REQUEST, loadQuestion);
 }
 
-function loadQuesionsAPI({token}) {
+function loadQuesionsAPI({ token }) {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+      Authorization: `Bearer ${token}`,
+    },
+  };
   return axios.get(`/questions`, config);
 }
 
@@ -76,13 +75,13 @@ function* watchLoadQuestions() {
 
 function editQuestionAPI(data) {
   const formData = new FormData();
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('title', data.title);
+  formData.append('content', data.content);
   const config = {
     headers: {
-      'content-type': 'multiQUESTION/form-data'
-    }
-  }
+      'content-type': 'multiQUESTION/form-data',
+    },
+  };
   return axios.put(`/questions/${data.id}`, formData, config);
 }
 
@@ -92,7 +91,7 @@ function* editQuestion(action) {
     yield put({
       type: EDIT_QUESTION_SUCCESS,
     });
-    Router.pushRoute(window.location.pathname.split('/questions')[0])
+    Router.pushRoute(window.location.pathname.split('/questions')[0]);
   } catch (e) {
     yield put({
       type: EDIT_QUESTION_FAILURE,
@@ -105,17 +104,16 @@ function* watchEditQuestion() {
   yield takeLatest(EDIT_QUESTION_REQUEST, editQuestion);
 }
 
-
 function addQuestionAPI(data) {
   const formData = new FormData();
-  formData.append('partId', data.id)
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('partId', data.id);
+  formData.append('title', data.title);
+  formData.append('content', data.content);
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
-  }
+      'content-type': 'multipart/form-data',
+    },
+  };
   return axios.post('/questions', formData, config);
 }
 
@@ -125,7 +123,7 @@ function* addQuestion(action) {
     yield put({
       type: ADD_QUESTION_SUCCESS,
     });
-    Router.pushRoute(window.location.pathname.split('/addQuestion')[0])
+    Router.pushRoute(window.location.pathname.split('/addQuestion')[0]);
   } catch (e) {
     yield put({
       type: ADD_QUESTION_FAILURE,

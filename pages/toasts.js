@@ -1,17 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Router from 'next/router'
+import Router from 'next/router';
 import axios from 'axios';
 
-import { LOAD_QUESTIONS_REQUEST, EDIT_QUESTION_REQUEST, LOAD_QUESTION_REQUEST } from '../reducers/question'
-import EditFrom from '../components/EditForm'
+import {
+  LOAD_QUESTIONS_REQUEST,
+  EDIT_QUESTION_REQUEST,
+  LOAD_QUESTION_REQUEST,
+} from '../reducers/question';
+import EditFrom from '../components/EditForm';
 
 const Toasts = ({ bookId, partId, id, token }) => {
-  const questions = useSelector(state => state.question.questions)
-  const question = questions && questions.length > 0 && questions.filter(question => {
-    return question.id === parseInt(id, 10)
-  })[0];
-  const toasts = useSelector(state => state.question.toasts)
+  const questions = useSelector(state => state.question.questions);
+  const question =
+    questions &&
+    questions.length > 0 &&
+    questions.filter(question => {
+      return question.id === parseInt(id, 10);
+    })[0];
+  const toasts = useSelector(state => state.question.toasts);
   console.log('t', toasts);
 
   // const addQuestion = (id) => {
@@ -22,21 +29,28 @@ const Toasts = ({ bookId, partId, id, token }) => {
   //   Router.pushRoute(`/questions/${id}`)
   // }
 
-  const deleteToast = async (id) => {
+  const deleteToast = async id => {
     try {
-      const result = await axios.delete(`/toasts/${id}`, { headers: { authorization: `Bearer ${token}` } });
-      if (result.status === 200, result.data.ok === true) {
-        window.location.href = window.location.href
+      const result = await axios.delete(`/toasts/${id}`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      if ((result.status === 200, result.data.ok === true)) {
+        window.location.href = window.location.href;
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
       {/* <button onClick={() => addQuestion(part.id)}>추가</button> */}
-      <EditFrom id={question.id} title={question.title} content={question.content} action={EDIT_QUESTION_REQUEST} />
+      <EditFrom
+        id={question.id}
+        title={question.title}
+        content={question.content}
+        action={EDIT_QUESTION_REQUEST}
+      />
       <table border="1">
         <thead>
           <tr>
@@ -49,35 +63,27 @@ const Toasts = ({ bookId, partId, id, token }) => {
           </tr>
         </thead>
         <tbody>
-          {toasts && toasts.length > 0 && toasts.map(toast => {
-            return (
-              <tr key={toast.id}>
-                <td>
-                  {toast.id}
-                </td>
-                <td>
-                  {toast.title}
-                </td>
-                <td>
-                  {toast.content}
-                </td>
-                <td>
-                  {toast.keepsCount}
-                </td>
-                <td>
-                  {toast.alertCount}
-                </td>
-                <td>
-                  <button onClick={() => deleteToast(toast.id)}>삭제</button>
-                </td>
-              </tr>
-            )
-          })}
+          {toasts &&
+            toasts.length > 0 &&
+            toasts.map(toast => {
+              return (
+                <tr key={toast.id}>
+                  <td>{toast.id}</td>
+                  <td>{toast.title}</td>
+                  <td>{toast.content}</td>
+                  <td>{toast.keepsCount}</td>
+                  <td>{toast.alertCount}</td>
+                  <td>
+                    <button onClick={() => deleteToast(toast.id)}>삭제</button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </>
-  )
-}
+  );
+};
 
 Toasts.getInitialProps = async (ctx, token) => {
   console.log('ctx', ctx.store);
@@ -85,16 +91,21 @@ Toasts.getInitialProps = async (ctx, token) => {
     type: LOAD_QUESTIONS_REQUEST,
     data: {
       token,
-    }
+    },
   });
   ctx.store.dispatch({
     type: LOAD_QUESTION_REQUEST,
     data: {
       token,
       id: ctx.query.id,
-    }
-  })
-  return { bookId: ctx.query.bookId, partId: ctx.query.partId, id: ctx.query.id, token };
-}
+    },
+  });
+  return {
+    bookId: ctx.query.bookId,
+    partId: ctx.query.partId,
+    id: ctx.query.id,
+    token,
+  };
+};
 
 export default Toasts;

@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, put, delay, call } from 'redux-saga/effects';
 import axios from 'axios';
-import Router from 'next/router'
+import Router from 'next/router';
 
 import {
   ADD_PART_REQUEST,
@@ -15,15 +15,14 @@ import {
   LOAD_PARTS_REQUEST,
   LOAD_PARTS_SUCCESS,
   LOAD_PARTS_FAILURE,
-  
 } from '../reducers/part';
 
-function loadPartAPI({token, id}) {
+function loadPartAPI({ token, id }) {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+      Authorization: `Bearer ${token}`,
+    },
+  };
   return axios.get(`/parts/${id}`, config);
 }
 
@@ -46,12 +45,12 @@ function* watchLoadPart() {
   yield takeLatest(LOAD_PART_REQUEST, loadPart);
 }
 
-function loadPartsAPI({token}) {
+function loadPartsAPI({ token }) {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+      Authorization: `Bearer ${token}`,
+    },
+  };
   return axios.get(`/parts`, config);
 }
 
@@ -76,13 +75,13 @@ function* watchLoadParts() {
 
 function editPartAPI(data) {
   const formData = new FormData();
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('title', data.title);
+  formData.append('content', data.content);
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
-  }
+      'content-type': 'multipart/form-data',
+    },
+  };
   return axios.put(`/parts/${data.id}`, formData, config);
 }
 
@@ -92,7 +91,7 @@ function* editPart(action) {
     yield put({
       type: EDIT_PART_SUCCESS,
     });
-    Router.pushRoute(window.location.pathname.split('/parts')[0])
+    Router.pushRoute(window.location.pathname.split('/parts')[0]);
   } catch (e) {
     yield put({
       type: EDIT_PART_FAILURE,
@@ -105,17 +104,16 @@ function* watchEditPart() {
   yield takeLatest(EDIT_PART_REQUEST, editPart);
 }
 
-
 function addPartAPI(data) {
   const formData = new FormData();
-  formData.append('bookId', data.id)
-  formData.append('title', data.title)
-  formData.append('content', data.content)
+  formData.append('bookId', data.id);
+  formData.append('title', data.title);
+  formData.append('content', data.content);
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
-  }
+      'content-type': 'multipart/form-data',
+    },
+  };
   return axios.post('/parts', formData, config);
 }
 
@@ -125,7 +123,7 @@ function* addPart(action) {
     yield put({
       type: ADD_PART_SUCCESS,
     });
-    Router.pushRoute(window.location.pathname.split('/addPart')[0])
+    Router.pushRoute(window.location.pathname.split('/addPart')[0]);
   } catch (e) {
     yield put({
       type: ADD_PART_FAILURE,

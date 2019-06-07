@@ -12,24 +12,25 @@ import {
 function logInAPI(loginData) {
   // 서버에 요청을 보내는 부분
   return axios.post('/signIn', loginData);
-
 }
 
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    document.cookie = `token=${result.data.result.token}`
-    yield put({ // put은 dispatch 동일
+    document.cookie = `token=${result.data.result.token}`;
+    yield put({
+      // put은 dispatch 동일
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
     yield put({
       type: LOAD_USER_REQUEST,
       data: {
-        token: result.data.result.token
+        token: result.data.result.token,
       },
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
+    // loginAPI 실패
     console.error(e);
     yield put({
       type: LOG_IN_FAILURE,
@@ -43,7 +44,9 @@ function* watchLogIn() {
 
 function loadUserAPI({ token }) {
   // 서버에 요청을 보내는 부분
-  return axios.get('/users/me', { headers: { Authorization: `Bearer ${token}` } });
+  return axios.get('/users/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
 
 function* loadUser(action) {
@@ -52,11 +55,13 @@ function* loadUser(action) {
     const result = yield call(loadUserAPI, action.data);
     if (result.data.ok !== true) {
     }
-    yield put({ // put은 dispatch 동일
+    yield put({
+      // put은 dispatch 동일
       type: LOAD_USER_SUCCESS,
       data: result.data.result,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
+    // loginAPI 실패
     console.error(e);
     yield put({
       type: LOAD_USER_FAILURE,
@@ -70,8 +75,5 @@ function* watchLoadUser() {
 }
 
 export default function* userSaga() {
-  yield all([
-    fork(watchLogIn),
-    fork(watchLoadUser),
-  ]);
+  yield all([fork(watchLogIn), fork(watchLoadUser)]);
 }

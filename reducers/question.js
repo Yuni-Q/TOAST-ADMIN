@@ -19,10 +19,8 @@ export const LOAD_QUESTIONS_REQUEST = 'LOAD_QUESTIONS_REQUEST';
 export const LOAD_QUESTIONS_SUCCESS = 'LOAD_QUESTIONS_SUCCESS';
 export const LOAD_QUESTIONS_FAILURE = 'LOAD_QUESTIONS_FAILURE';
 
-
 export default (state = initialState, action) => {
   switch (action.type) {
-    
     // ADD_QUESTION_REQUEST
     case ADD_QUESTION_REQUEST: {
       return {
@@ -90,7 +88,7 @@ export default (state = initialState, action) => {
     case LOAD_QUESTION_SUCCESS: {
       return {
         ...state,
-        toasts: action.data
+        toasts: action.data,
       };
     }
     case LOAD_QUESTION_FAILURE: {

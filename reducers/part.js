@@ -19,10 +19,8 @@ export const LOAD_PARTS_REQUEST = 'LOAD_PARTS_REQUEST';
 export const LOAD_PARTS_SUCCESS = 'LOAD_PARTS_SUCCESS';
 export const LOAD_PARTS_FAILURE = 'LOAD_PARTS_FAILURE';
 
-
 export default (state = initialState, action) => {
   switch (action.type) {
-    
     // ADD_PART_REQUEST
     case ADD_PART_REQUEST: {
       return {
@@ -90,7 +88,7 @@ export default (state = initialState, action) => {
     case LOAD_PART_SUCCESS: {
       return {
         ...state,
-        questions: action.data
+        questions: action.data,
       };
     }
     case LOAD_PART_FAILURE: {

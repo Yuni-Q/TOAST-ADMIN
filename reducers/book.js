@@ -20,13 +20,10 @@ export const EDIT_BOOK_REQUEST = 'EDIT_BOOK_REQUEST';
 export const EDIT_BOOK_SUCCESS = 'EDIT_BOOK_SUCCESS';
 export const EDIT_BOOK_FAILURE = 'EDIT_BOOK_FAILURE';
 
-
-
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    
     // ADD_BOOK_REQUEST
     case ADD_BOOK_REQUEST: {
       return {

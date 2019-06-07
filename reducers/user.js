@@ -30,7 +30,6 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
 export default (state = initialState, action) => {
   switch (action.type) {
-
     // LOG_IN_REQUEST
     case LOG_IN_REQUEST: {
       return {
@@ -70,7 +69,7 @@ export default (state = initialState, action) => {
         me: null,
       };
     }
-    
+
     // LOAD_USER_REQUEST
     case LOAD_USER_REQUEST: {
       return {
@@ -88,7 +87,7 @@ export default (state = initialState, action) => {
         ...state,
       };
     }
-    
+
     default: {
       return {
         ...state,

@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, put, delay, call } from 'redux-saga/effects';
 import axios from 'axios';
-import Router from 'next/router'
+import Router from 'next/router';
 
 import {
   LOAD_BOOKS_FAILURE,
@@ -24,9 +24,9 @@ function editBookAPI(data) {
   formData.append('image', data.image);
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
-  }
+      'content-type': 'multipart/form-data',
+    },
+  };
   return axios.put(`/books/${data.id}`, formData, config);
 }
 
@@ -37,7 +37,7 @@ function* editPost(action) {
     yield put({
       type: EDIT_BOOK_SUCCESS,
     });
-    Router.pushRoute('/books')
+    Router.pushRoute('/books');
   } catch (e) {
     yield put({
       type: EDIT_BOOK_FAILURE,
@@ -50,7 +50,6 @@ function* watchEditBook() {
   yield takeLatest(EDIT_BOOK_REQUEST, editPost);
 }
 
-
 function addBookAPI(data) {
   const formData = new FormData();
   formData.append('title', data.title);
@@ -58,9 +57,9 @@ function addBookAPI(data) {
   formData.append('image', data.image);
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
-  }
+      'content-type': 'multipart/form-data',
+    },
+  };
   return axios.post('/books', formData, config);
 }
 
@@ -71,7 +70,7 @@ function* addPost(action) {
     yield put({
       type: ADD_BOOK_SUCCESS,
     });
-    Router.pushRoute('/books')
+    Router.pushRoute('/books');
   } catch (e) {
     yield put({
       type: ADD_BOOK_FAILURE,
@@ -108,7 +107,9 @@ function* watchLoadBooks() {
 }
 
 function loadBookAPI({ id, token }) {
-  return axios.get(`/books/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+  return axios.get(`/books/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 }
 
 function* loadBook(action) {

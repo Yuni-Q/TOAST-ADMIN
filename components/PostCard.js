@@ -16,24 +16,27 @@ const PostCard = ({ post }) => {
     setCommentFormOpened(prev => !prev);
   }, []);
 
-  const onSubmitComment = useCallback((e) => {
-    e.preventDefault();
-    if (!me) {
-      return alert('로그인이 필요합니다.');
-    }
-    return dispatch({
-      type: ADD_COMMENT_REQUEST,
-      data: {
-        postId: post.id,
-      },
-    });
-  }, [me && me.id]);
+  const onSubmitComment = useCallback(
+    e => {
+      e.preventDefault();
+      if (!me) {
+        return alert('로그인이 필요합니다.');
+      }
+      return dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: {
+          postId: post.id,
+        },
+      });
+    },
+    [me && me.id],
+  );
 
   useEffect(() => {
     setCommentText('');
   }, [commentAdded === true]);
 
-  const onChangeCommentText = useCallback((e) => {
+  const onChangeCommentText = useCallback(e => {
     setCommentText(e.target.value);
   }, []);
 
@@ -53,27 +56,35 @@ const PostCard = ({ post }) => {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={(
+          description={
             <div>
-              {post.content.split(/(#[^\s]+)/g).map((v) => {
+              {post.content.split(/(#[^\s]+)/g).map(v => {
                 if (v.match(/#[^\s]+/)) {
                   return (
-                    <Link href={`/hashtag/${v.slice(1)}`} key={v}><a>{v}</a></Link>
+                    <Link href={`/hashtag/${v.slice(1)}`} key={v}>
+                      <a>{v}</a>
+                    </Link>
                   );
                 }
                 return v;
               })}
             </div>
-          )} // a tag x -> Link
+          } // a tag x -> Link
         />
       </Card>
       {commentFormOpened && (
         <>
           <Form onSubmit={onSubmitComment}>
             <Form.Item>
-              <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
+              <Input.TextArea
+                rows={4}
+                value={commentText}
+                onChange={onChangeCommentText}
+              />
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={isAddingComment}>삐약</Button>
+            <Button type="primary" htmlType="submit" loading={isAddingComment}>
+              삐약
+            </Button>
           </Form>
           <List
             header={`${post.Comments ? post.Comments.length : 0} 댓글`}
