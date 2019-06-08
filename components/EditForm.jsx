@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Button, Form, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { useInput } from '../common/customHooks'; // TODO: util 폴더로 옮기기
 
 const LoginForm = ({
@@ -16,22 +18,22 @@ const LoginForm = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const title = {
+    const t = {
       target: {
         value: prevTitle,
       },
     };
-    onChangeTitle(title);
-    const content = {
+    onChangeTitle(t);
+    const c = {
       target: {
         value: prevContent,
       },
     };
-    onChangeContent(content);
+    onChangeContent(c);
   }, [prevTitle, prevContent]);
 
   const onChangeFile = e => {
-    imageRef.current = e.target.files[0];
+    [imageRef.current] = e.target.files;
   };
 
   const onSubmitForm = useCallback(
@@ -54,14 +56,15 @@ const LoginForm = ({
     <>
       <Form onSubmit={onSubmitForm} style={{ padding: '10px' }}>
         <div>
-          <label htmlFor="title">title</label>
-          <br />
-          <Input
-            id="title"
-            name="title"
-            value={title}
-            onChange={onChangeTitle}
-          />
+          <label htmlFor="title">
+            <Input
+              id="title"
+              name="title"
+              value={title}
+              onChange={onChangeTitle}
+            />
+            title
+          </label>
         </div>
         <div>
           <label htmlFor="content">content</label>
@@ -83,10 +86,22 @@ const LoginForm = ({
             수정
           </Button>
         </div>
-        {!!imgUrl && <img src={imgUrl} width="200px" />}
+        {!!imgUrl && <img alt="bookImg" src={imgUrl} width="200px" />}
       </Form>
     </>
   );
+};
+
+LoginForm.propTypes = {
+  id: PropTypes.number,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string.isRequired,
+  action: PropTypes.string.isRequired,
+};
+
+LoginForm.defaultProps = {
+  id: 0,
 };
 
 export default LoginForm;

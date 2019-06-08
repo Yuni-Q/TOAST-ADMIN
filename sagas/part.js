@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, put, delay, call } from 'redux-saga/effects';
+import { all, fork, takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import Router from 'next/router';
 
@@ -87,7 +87,7 @@ function editPartAPI(data) {
 
 function* editPart(action) {
   try {
-    const result = yield call(editPartAPI, action.data);
+    yield call(editPartAPI, action.data);
     yield put({
       type: EDIT_PART_SUCCESS,
     });

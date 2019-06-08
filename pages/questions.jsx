@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import useSelector from 'react-redux';
 import Router from 'next/router';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import {
   LOAD_PARTS_REQUEST,
@@ -13,24 +14,26 @@ import EditFrom from '../components/EditForm';
 const Questions = ({ bookId, id, token }) => {
   const parts = useSelector(state => state.part.parts);
   const part =
-    part &&
+    parts &&
     parts.length > 0 &&
-    parts.filter(part => {
-      return part.id === parseInt(id, 10);
+    parts.filter(p => {
+      return p.id === parseInt(id, 10);
     })[0];
   const questions = useSelector(state => state.part.questions);
 
-  const addQuestion = id => {
-    Router.pushRoute(`/books/${bookId}/parts/${id}/addQuestion`);
+  const addQuestion = partId => {
+    Router.pushRoute(`/books/${bookId}/parts/${partId}/addQuestion`);
   };
 
-  const onClick = id => {
-    Router.pushRoute(`/books/${bookId}/parts/${part.id}/questions/${id}`);
+  const onClick = questionId => {
+    Router.pushRoute(
+      `/books/${bookId}/parts/${part.id}/questions/${questionId}`,
+    );
   };
 
-  const deleteQuestion = async id => {
+  const deleteQuestion = async questionId => {
     try {
-      const result = await axios.delete(`/questions/${id}`, {
+      const result = await axios.delete(`/questions/${questionId}`, {
         headers: { authorization: `Bearer ${token}` },
       });
       if ((result.status === 200, result.data.ok === true)) {
@@ -43,7 +46,9 @@ const Questions = ({ bookId, id, token }) => {
 
   return (
     <>
-      <button onClick={() => addQuestion(part.id)}>추가</button>
+      <button type="button" onClick={() => addQuestion(part.id)}>
+        추가
+      </button>
       <EditFrom
         id={part.id}
         title={part.title}
@@ -64,13 +69,26 @@ const Questions = ({ bookId, id, token }) => {
             questions.map(question => {
               return (
                 <tr key={question.id}>
-                  <td onClick={() => onClick(question.id)}>{question.id}</td>
-                  <td onClick={() => onClick(question.id)}>{question.title}</td>
-                  <td onClick={() => onClick(question.id)}>
-                    {question.content}
+                  <td>
+                    <button type="button" onClick={() => onClick(question.id)}>
+                      {question.title}
+                    </button>
                   </td>
                   <td>
-                    <button onClick={() => deleteQuestion(question.id)}>
+                    <button type="button" onClick={() => onClick(question.id)}>
+                      {question.id}
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => onClick(question.id)}>
+                      {question.content}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => deleteQuestion(question.id)}
+                    >
                       삭제
                     </button>
                   </td>
@@ -81,6 +99,12 @@ const Questions = ({ bookId, id, token }) => {
       </table>
     </>
   );
+};
+
+Questions.propTypes = {
+  bookId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 Questions.getInitialProps = async (ctx, token) => {

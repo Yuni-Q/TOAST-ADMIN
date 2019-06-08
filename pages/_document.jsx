@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
-import getConfig from 'next/config';
+import Document, { Main, NextScript } from 'next/document';
+// import getConfig from 'next/config';
 import { ServerStyleSheet } from 'styled-components';
 import Helmet from 'react-helmet';
 
@@ -22,12 +22,12 @@ export default class CustomDocument extends Document {
   }
 
   render() {
-    const { publicRuntimeConfig } = getConfig();
+    // const { publicRuntimeConfig } = getConfig();
     const { htmlAttributes, bodyAttributes, ...helmet } = this.props.helmet;
     const htmlAttrs = htmlAttributes.toComponent();
     const bodyAttrs = bodyAttributes.toComponent();
     return (
-      <html {...htmlAttrs}>
+      <html lang="ko" {...htmlAttrs}>
         <head>
           {this.props.styleTags}
           {Object.values(helmet).map(el => el.toComponent())}

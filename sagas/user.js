@@ -53,8 +53,6 @@ function* loadUser(action) {
   try {
     // yield call(loadUserAPI);
     const result = yield call(loadUserAPI, action.data);
-    if (result.data.ok !== true) {
-    }
     yield put({
       // put은 dispatch 동일
       type: LOAD_USER_SUCCESS,

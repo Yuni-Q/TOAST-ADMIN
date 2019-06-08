@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Router from 'next/router';
+import React from 'react';
+import useSelector from 'react-redux';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import {
   LOAD_QUESTIONS_REQUEST,
@@ -10,28 +10,19 @@ import {
 } from '../reducers/question';
 import EditFrom from '../components/EditForm';
 
-const Toasts = ({ bookId, partId, id, token }) => {
+const Toasts = ({ id, token }) => {
   const questions = useSelector(state => state.question.questions);
   const question =
     questions &&
     questions.length > 0 &&
-    questions.filter(question => {
-      return question.id === parseInt(id, 10);
+    questions.filter(q => {
+      return q.id === parseInt(id, 10);
     })[0];
   const toasts = useSelector(state => state.question.toasts);
-  console.log('t', toasts);
 
-  // const addQuestion = (id) => {
-  //   Router.pushRoute(`/addQuestion/${id}`)
-  // }
-
-  // const onClick = (id) => {
-  //   Router.pushRoute(`/questions/${id}`)
-  // }
-
-  const deleteToast = async id => {
+  const deleteToast = async toastId => {
     try {
-      const result = await axios.delete(`/toasts/${id}`, {
+      const result = await axios.delete(`/toasts/${toastId}`, {
         headers: { authorization: `Bearer ${token}` },
       });
       if ((result.status === 200, result.data.ok === true)) {
@@ -74,7 +65,9 @@ const Toasts = ({ bookId, partId, id, token }) => {
                   <td>{toast.keepsCount}</td>
                   <td>{toast.alertCount}</td>
                   <td>
-                    <button onClick={() => deleteToast(toast.id)}>삭제</button>
+                    <button type="button" onClick={() => deleteToast(toast.id)}>
+                      삭제
+                    </button>
                   </td>
                 </tr>
               );
@@ -85,8 +78,12 @@ const Toasts = ({ bookId, partId, id, token }) => {
   );
 };
 
+Toasts.propTypes = {
+  id: PropTypes.number.isRequired,
+  token: PropTypes.string.isRequired,
+};
+
 Toasts.getInitialProps = async (ctx, token) => {
-  console.log('ctx', ctx.store);
   ctx.store.dispatch({
     type: LOAD_QUESTIONS_REQUEST,
     data: {

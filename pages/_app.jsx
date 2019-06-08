@@ -2,6 +2,7 @@ import { Container } from 'next/app';
 import axios from 'axios';
 import * as React from 'react';
 // import Router from 'next/router'
+import PropTypes from 'prop-types';
 
 import withRedux from 'next-redux-wrapper';
 import { applyMiddleware, compose, createStore } from 'redux';
@@ -17,84 +18,73 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 
 import AppLayout from '../components/AppLayout';
 
-const MyApp = ({ Component, store, pageProps }) => {
-  return (
-    <Container>
-      <Provider store={store}>
-        <Helmet
-          title="TOAST"
-          htmlAttributes={{ lang: 'ko' }}
-          meta={[
-            {
-              charset: 'UTF-8',
-            },
-            {
-              name: 'viewport',
-              content:
-                'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover',
-            },
-            {
-              'http-equiv': 'X-UA-Compatible',
-              content: 'IE=edge',
-            },
-            {
-              name: 'description',
-              content: 'TOAST',
-            },
-            {
-              property: 'og:type',
-              content: 'website',
-            },
-          ]}
-          link={[
-            {
-              rel: 'shortcut icon',
-              href: '/favicon.ico',
-            },
-            {
-              rel: 'stylesheet',
-              href:
-                'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css',
-            },
-            {
-              rel: 'stylesheet',
-              href:
-                'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css',
-            },
-            {
-              rel: 'stylesheet',
-              href:
-                'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
-            },
-          ]}
-          script={[
-            {
-              src: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.js',
-            },
-          ]}
-        />
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
-      </Provider>
-    </Container>
-  );
-};
-
-export function canUseDOM() {
-  return !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  );
-}
+const MyApp = ({ Component, store, pageProps }) => (
+  <Container>
+    <Provider store={store}>
+      <Helmet
+        title="TOAST"
+        htmlAttributes={{ lang: 'ko' }}
+        meta={[
+          {
+            charset: 'UTF-8',
+          },
+          {
+            name: 'viewport',
+            content:
+              'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover',
+          },
+          {
+            'http-equiv': 'X-UA-Compatible',
+            content: 'IE=edge',
+          },
+          {
+            name: 'description',
+            content: 'TOAST',
+          },
+          {
+            property: 'og:type',
+            content: 'website',
+          },
+        ]}
+        link={[
+          {
+            rel: 'shortcut icon',
+            href: '/favicon.ico',
+          },
+          {
+            rel: 'stylesheet',
+            href: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css',
+          },
+          {
+            rel: 'stylesheet',
+            href:
+              'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css',
+          },
+          {
+            rel: 'stylesheet',
+            href:
+              'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
+          },
+        ]}
+        script={[
+          {
+            src: 'https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.js',
+          },
+        ]}
+      />
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
+    </Provider>
+  </Container>
+);
 
 const configureStore = (initialState, options) => {
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [
     sagaMiddleware,
     store => next => action => {
-      console.log(action);
+      console.log(store, action);
       next(action);
     },
   ];
@@ -120,7 +110,7 @@ MyApp.getInitialProps = async context => {
     const decodedCookie = decodeURIComponent(context.ctx.req.headers.cookie);
     const value = 'token';
     const cookieList = decodedCookie.split(';');
-    const name = value + '=';
+    const name = `${value}=`;
     const cookie = cookieList
       .map(e => e.trim())
       .find(e => e.indexOf(name) === 0);
@@ -128,7 +118,7 @@ MyApp.getInitialProps = async context => {
   } else {
     token = getCookie('token');
   }
-  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+  axios.defaults.headers.Authorization = `Bearer ${token}`;
   context.ctx.store.dispatch({
     type: LOAD_USER_REQUEST,
     data: {
@@ -140,6 +130,12 @@ MyApp.getInitialProps = async context => {
     pageProps = await context.Component.getInitialProps(context.ctx, token);
   }
   return { pageProps, isServer };
+};
+
+MyApp.propTypes = {
+  Component: PropTypes.any.isRequired,
+  store: PropTypes.any.isRequired,
+  pageProps: PropTypes.any.isRequired,
 };
 
 export default withRedux(configureStore)(withReduxSaga(MyApp));

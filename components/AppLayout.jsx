@@ -1,19 +1,18 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
+import PropTypes from 'prop-types';
 
-import { Link } from '../routes';
-import { canUseDOM } from '../pages/_app';
-import { LOAD_USER_REQUEST } from '../reducers/user';
 import Router from 'next/router';
+import { Link } from '../routes';
+import { canUseDOM } from '../common/canUesDOM';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 import { getCookie } from '../common/cookie';
 
 const { Header, Content, Footer } = Layout;
 
-const AppLayout = props => {
-  const a = 1;
-  a = 2;
+const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   if (canUseDOM() && !getCookie('token') && window.location.pathname !== '/') {
@@ -40,13 +39,13 @@ const AppLayout = props => {
           <div className="logo" />
           <div>
             <span>
-              <Link route={'/'}>
-                <a>index</a>
+              <Link route="/" href="/">
+                index
               </Link>
             </span>
             <span style={{ margin: '0px 0px 0px 16px' }}>
-              <Link route={'/books'}>
-                <a>book</a>
+              <Link route="/books" href="/books">
+                book
               </Link>
             </span>
           </div>
@@ -58,7 +57,7 @@ const AppLayout = props => {
             <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
           <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-            {props.children}
+            {children}
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
@@ -67,6 +66,10 @@ const AppLayout = props => {
       </Layout>
     </>
   );
+};
+
+AppLayout.propTypes = {
+  children: PropTypes.any.isRequired,
 };
 
 export default AppLayout;

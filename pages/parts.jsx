@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Router from 'next/router';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import {
   LOAD_BOOKS_REQUEST,
@@ -16,21 +17,20 @@ const Parts = ({ id, token }) => {
   const book =
     books &&
     books.length > 0 &&
-    books.filter(book => {
-      return book.id === parseInt(id, 10);
+    books.filter(b => {
+      return b.id === parseInt(id, 10);
     })[0];
-  const dispatch = useDispatch();
 
-  const addPart = id => {
-    Router.pushRoute(`/books/${id}/addPart`);
+  const addPart = bookId => {
+    Router.pushRoute(`/books/${bookId}/addPart`);
   };
 
-  const onClick = id => {
-    Router.pushRoute(`/books/${book.id}/parts/${id}`);
+  const onClick = partId => {
+    Router.pushRoute(`/books/${book.id}/parts/${partId}`);
   };
 
-  const deletePart = async id => {
-    const result = await axios.delete(`/parts/${id}`, {
+  const deletePart = async partId => {
+    const result = await axios.delete(`/parts/${partId}`, {
       headers: { authorization: `Bearer ${token}` },
     });
     if ((result.status === 200, result.data.ok === true)) {
@@ -40,7 +40,9 @@ const Parts = ({ id, token }) => {
 
   return (
     <>
-      <button onClick={() => addPart(book.id)}>추가</button>
+      <button type="button" onClick={() => addPart(book.id)}>
+        추가
+      </button>
       <EditFrom
         id={book.id}
         title={book.title}
@@ -62,13 +64,26 @@ const Parts = ({ id, token }) => {
             parts.map(part => {
               return (
                 <tr key={part.partId}>
-                  <td onClick={() => onClick(part.partId)}>{part.partId}</td>
-                  <td onClick={() => onClick(part.partId)}>{part.partTitle}</td>
-                  <td onClick={() => onClick(part.partId)}>
-                    {part.partContent}
+                  <td>
+                    <button type="button" onClick={() => onClick(part.partId)}>
+                      {part.partId}
+                    </button>
                   </td>
                   <td>
-                    <button onClick={() => deletePart(part.partId)}>
+                    <button type="button" onClick={() => onClick(part.partId)}>
+                      {part.partTitle}
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => onClick(part.partId)}>
+                      {part.partContent}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => deletePart(part.partId)}
+                    >
                       삭제
                     </button>
                   </td>
@@ -79,6 +94,11 @@ const Parts = ({ id, token }) => {
       </table>
     </>
   );
+};
+
+Parts.propTypes = {
+  id: PropTypes.number.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 Parts.getInitialProps = (ctx, token) => {

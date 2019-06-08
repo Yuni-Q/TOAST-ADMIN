@@ -7,3 +7,5 @@ export const useInput = initValue => {
   }, []);
   return [value, handler];
 };
+
+export default useInput;

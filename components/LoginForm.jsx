@@ -7,7 +7,7 @@ import { LOG_IN_REQUEST } from '../reducers/user';
 const LoginForm = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const { isLoggingIn, me } = useSelector(state => state.user);
+  const { isLoggingIn } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(
